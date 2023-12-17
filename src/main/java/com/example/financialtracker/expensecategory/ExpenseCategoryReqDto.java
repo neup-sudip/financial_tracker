@@ -1,4 +1,4 @@
-package com.example.financialtracker.category;
+package com.example.financialtracker.expensecategory;
 
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Getter
 @Setter
-public class CategoryReqDto {
+public class ExpenseCategoryReqDto {
 
     @NotEmpty(message = "Title is required !")
     @Size(min = 4, message = "title should have at least 4 characters")

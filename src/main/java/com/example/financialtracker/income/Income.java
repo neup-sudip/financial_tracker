@@ -1,6 +1,6 @@
-package com.example.financialtracker.expense;
+package com.example.financialtracker.income;
 
-import com.example.financialtracker.expensecategory.ExpenseCategory;
+import com.example.financialtracker.incomecategory.IncomeCategory;
 import com.example.financialtracker.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,13 +16,13 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(name = "expense")
-public class Expense {
+@Table(name = "income")
+public class Income {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "expense_id")
-    private long expenseId;
+    @Column(name = "income_id")
+    private long incomeId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -30,7 +30,7 @@ public class Expense {
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
-    private ExpenseCategory expenseCategory;
+    private IncomeCategory incomeCategory;
 
     private String title;
 
@@ -41,13 +41,14 @@ public class Expense {
     @Column(name = "created_on")
     private LocalDate createdOn = LocalDate.now();
 
-    public Expense(ExpenseReqDto expenseReqDto, User user) {
+    public Income(IncomeReqDto incomeReqDto, User user) {
         this.user = user;
-        ExpenseCategory newCat = new ExpenseCategory();
-        newCat.setCategoryId(expenseReqDto.getCategoryId());
-        this.expenseCategory = newCat;
-        this.title  = expenseReqDto.getTitle();
-        this.description = expenseReqDto.getDescription();
-        this.amount = expenseReqDto.getAmount();
+        IncomeCategory newCat = new IncomeCategory();
+        newCat.setCategoryId(incomeReqDto.getCategoryId());
+        this.incomeCategory = newCat;
+        this.title  = incomeReqDto.getTitle();
+        this.description = incomeReqDto.getDescription();
+        this.amount = incomeReqDto.getAmount();
     }
 }
+

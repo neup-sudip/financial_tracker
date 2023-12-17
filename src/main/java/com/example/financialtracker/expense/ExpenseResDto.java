@@ -29,8 +29,8 @@ public class ExpenseResDto {
 
     public ExpenseResDto(Expense expense) {
         this.expenseId = expense.getExpenseId();
-        this.categoryId = expense.getCategory().getCategoryId();
-        this.categoryTitle = expense.getCategory().getTitle();
+        this.categoryId = expense.getExpenseCategory().getCategoryId();
+        this.categoryTitle = expense.getExpenseCategory().getTitle();
         this.expenseTitle = expense.getTitle();
         this.description = expense.getDescription();
         this.amount = expense.getAmount();

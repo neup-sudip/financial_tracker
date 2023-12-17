@@ -24,6 +24,13 @@ public class ExpenseController {
         return ResponseEntity.status(200).body(new ApiResponse<>(true, expenseResDtos, "Expenses fetched !"));
     }
 
+    @GetMapping("/category/{id}")
+    public ResponseEntity<ApiResponse<List<ExpenseResDto>>> getExpensesByCategory(@PathVariable long id, HttpServletRequest request){
+        User user = (User) request.getAttribute("user");
+        List<ExpenseResDto> expenseResDtos = expenseService.getExpensesByCategory(user.getUserId(), id);
+        return ResponseEntity.status(200).body(new ApiResponse<>(true, expenseResDtos, "Category expenses fetched !"));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<ExpenseResDto>> getSingleExpense(@PathVariable long id, HttpServletRequest request){
         User user = (User) request.getAttribute("user");

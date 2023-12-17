@@ -1,6 +1,6 @@
 package com.example.financialtracker.expense;
 
-import com.example.financialtracker.category.Category;
+import com.example.financialtracker.expensecategory.ExpenseCategory;
 import com.example.financialtracker.exception.CustomException;
 import com.example.financialtracker.user.User;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +29,11 @@ public class ExpenseService {
         return new ExpenseResDto(expense.get());
     }
 
+    public List<ExpenseResDto> getExpensesByCategory(long userId, long categoryId) {
+        List<Expense> expenses = expenseRepository.findExpensesByCategory(userId, categoryId);
+        return new ArrayList<>(expenses.stream().map(ExpenseResDto::new).toList());
+    }
+
     public ExpenseResDto createExpense(ExpenseReqDto expenseReqDto, long userId) {
         User user = new User();
         user.setUserId(userId);
@@ -46,9 +51,9 @@ public class ExpenseService {
         }
         Expense prevExpense = optExpense.get();
 
-        Category category = new Category();
-        category.setCategoryId(expenseReqDto.getCategoryId());
-        prevExpense.setCategory(category);
+        ExpenseCategory expenseCategory = new ExpenseCategory();
+        expenseCategory.setCategoryId(expenseReqDto.getCategoryId());
+        prevExpense.setExpenseCategory(expenseCategory);
         prevExpense.setTitle(expenseReqDto.getTitle());
         prevExpense.setDescription(expenseReqDto.getDescription());
         prevExpense.setAmount(expenseReqDto.getAmount());
