@@ -17,10 +17,10 @@ public class UserResDto {
 
     private String email;
 
-    public UserResDto(UserEntity userEntity) {
-        this.userId = userEntity.getUserId();
-        this.username = userEntity.getUsername();
-        this.email = userEntity.getEmail();
-        this.fullName = userEntity.getFullName();
+    public UserResDto(User user) {
+        this.userId = user.getUserId();
+        this.username = user.getUsername();
+        this.email = user.getEmail();
+        this.fullName = user.getFullName();
     }
 }

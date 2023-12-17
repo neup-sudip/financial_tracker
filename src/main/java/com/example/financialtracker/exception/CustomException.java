@@ -1,18 +1,16 @@
 package com.example.financialtracker.exception;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class CustomException extends RuntimeException {
-    private int status;
+    private final int status;
 
     public CustomException(String error, int status) {
         super(error);
         this.status = status;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
 }

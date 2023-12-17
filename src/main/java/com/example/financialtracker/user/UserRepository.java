@@ -5,18 +5,18 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<UserEntity> findUserByUsername(String username);
+    Optional<User> findUserByUsername(String username);
 
     @Query(value = "SELECT * FROM users WHERE username = :username AND password = :password LIMIT 1", nativeQuery = true)
-    Optional<UserEntity> findUserByUsernameAndPassword(String username, String password);
+    Optional<User> findUserByUsernameAndPassword(String username, String password);
 
     @Query(value = "SELECT * FROM users WHERE user_id <> :userId AND username = :username LIMIT 1", nativeQuery = true)
-    Optional<UserEntity> findByNotIdAndUsername(Long userId, String username);
+    Optional<User> findByNotIdAndUsername(Long userId, String username);
 
-    Optional<UserEntity> findUserByEmail(String email);
+    Optional<User> findUserByEmail(String email);
 
     @Query(value = "SELECT * FROM users WHERE user_id <> :userId AND email = :email LIMIT 1", nativeQuery = true)
-    Optional<UserEntity> findByNotIdAndEmail(Long userId, String email);
+    Optional<User> findByNotIdAndEmail(Long userId, String email);
 }

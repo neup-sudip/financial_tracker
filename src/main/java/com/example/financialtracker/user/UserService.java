@@ -16,18 +16,17 @@ public class UserService {
 
     private static final String NOT_FOUND = "User not found !";
 
-    public ResponseEntity<ApiResponse<UserResDto>> getUserById(Long userId) {
-        Optional<UserEntity> user = userRepository.findById(userId);
+    public UserResDto getUserById(Long userId) {
+        Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
-            UserResDto userResDto = new UserResDto(user.get());
-            return ResponseEntity.status(200).body(new ApiResponse<>(true, userResDto, "User fetched !"));
+            return new UserResDto(user.get());
         } else {
             throw new CustomException(NOT_FOUND, 404);
         }
     }
 
     public UserResDto getUserByUsernameAndPassword(String username, String password) {
-        Optional<UserEntity> user = userRepository.findUserByUsernameAndPassword(username, password);
+        Optional<User> user = userRepository.findUserByUsernameAndPassword(username, password);
         if (user.isPresent()) {
             return new UserResDto(user.get());
         } else {
@@ -36,46 +35,45 @@ public class UserService {
     }
 
     public UserResDto createUser(UserRegisterDto userRegisterDto) {
-        Optional<UserEntity> userEmail = userRepository.findUserByEmail(userRegisterDto.getEmail());
+        Optional<User> userEmail = userRepository.findUserByEmail(userRegisterDto.getEmail());
         if (userEmail.isPresent()) {
             throw new CustomException("Email already exist !", 404);
         }
 
-        Optional<UserEntity> userUsername = userRepository.findUserByUsername(userRegisterDto.getUsername());
+        Optional<User> userUsername = userRepository.findUserByUsername(userRegisterDto.getUsername());
         if (userUsername.isPresent()) {
             throw new CustomException("Username already exist !", 404);
         }
 
-        UserEntity userEntity = new UserEntity(userRegisterDto);
-        UserEntity newUser = userRepository.save(userEntity);
+        User user = new User(userRegisterDto);
+        User newUser = userRepository.save(user);
         return new UserResDto(newUser);
     }
 
-    public ResponseEntity<ApiResponse<UserResDto>> updateUser(UserRegisterDto userRegisterDto, Long userId) {
-        Optional<UserEntity> userEmail = userRepository.findByNotIdAndEmail(userId, userRegisterDto.getEmail());
+    public UserResDto updateUser(UserRegisterDto userRegisterDto, Long userId) {
+        Optional<User> userEmail = userRepository.findByNotIdAndEmail(userId, userRegisterDto.getEmail());
         if (userEmail.isPresent()) {
             throw new CustomException("Email already exist !", 404);
         }
 
-        Optional<UserEntity> userUsername = userRepository.findByNotIdAndUsername(userId, userRegisterDto.getUsername());
+        Optional<User> userUsername = userRepository.findByNotIdAndUsername(userId, userRegisterDto.getUsername());
         if (userUsername.isPresent()) {
             throw new CustomException("Username already exist !", 404);
         }
 
-        Optional<UserEntity> optionalUser = userRepository.findById(userId);
+        Optional<User> optionalUser = userRepository.findById(userId);
 
         if (optionalUser.isEmpty()) {
             throw new CustomException(NOT_FOUND, 404);
         }
 
-        UserEntity prevUser = optionalUser.get();
+        User prevUser = optionalUser.get();
         prevUser.setEmail(userRegisterDto.getEmail());
         prevUser.setPassword(userRegisterDto.getPassword());
         prevUser.setUsername(userRegisterDto.getUsername());
         prevUser.setFullName(userRegisterDto.getFullName());
-        UserEntity newUser = userRepository.save(prevUser);
+        User newUser = userRepository.save(prevUser);
 
-        UserResDto userResDto = new UserResDto(newUser);
-        return ResponseEntity.status(200).body(new ApiResponse<>(true, userResDto, "User created !"));
+        return new UserResDto(newUser);
     }
 }

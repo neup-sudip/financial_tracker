@@ -2,7 +2,7 @@ package com.example.financialtracker.security;
 
 
 import com.example.financialtracker.exception.CustomException;
-import com.example.financialtracker.user.UserEntity;
+import com.example.financialtracker.user.User;
 import com.example.financialtracker.wrapper.ApiResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
@@ -38,7 +38,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 Claims userClaim = jwtService.decodeToken(token);
                 Map<String, Object> userMap = userClaim.get("user", Map.class);
 
-                UserEntity user = new UserEntity();
+                User user = new User();
                 user.setUserId((Integer) userMap.get("userId"));
                 user.setUsername((String) userMap.get("username"));
 

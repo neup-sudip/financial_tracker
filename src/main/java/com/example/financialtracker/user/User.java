@@ -9,7 +9,7 @@ import lombok.*;
 @Setter
 @Entity
 @Table(name =  "users")
-public class UserEntity {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -28,7 +28,7 @@ public class UserEntity {
     private String email;
 
 
-    public UserEntity(UserRegisterDto userRegisterDto) {
+    public User(UserRegisterDto userRegisterDto) {
         this.username = userRegisterDto.getUsername();
         this.password = userRegisterDto.getPassword();
         this.fullName = userRegisterDto.getFullName();

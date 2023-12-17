@@ -16,13 +16,15 @@ public class UserController {
 
     @PutMapping()
     public ResponseEntity<ApiResponse<UserResDto>> updateUser(@Valid @RequestBody UserRegisterDto userRegisterDto, HttpServletRequest request) {
-        UserEntity user = (UserEntity) request.getAttribute("user");
-        return userService.updateUser(userRegisterDto, user.getUserId());
+        User user = (User) request.getAttribute("user");
+        UserResDto userResDto = userService.updateUser(userRegisterDto, user.getUserId());
+        return ResponseEntity.status(200).body(new ApiResponse<>(true, userResDto, "User updated !"));
     }
 
     @GetMapping()
     public ResponseEntity<ApiResponse<UserResDto>> getUser(HttpServletRequest request) {
-        UserEntity user = (UserEntity) request.getAttribute("user");
-        return userService.getUserById(user.getUserId());
+        User user = (User) request.getAttribute("user");
+        UserResDto userResDto = userService.getUserById(user.getUserId());
+        return ResponseEntity.status(200).body(new ApiResponse<>(true, userResDto, "User fetched !"));
     }
 }
