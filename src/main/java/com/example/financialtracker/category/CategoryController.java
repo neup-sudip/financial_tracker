@@ -49,6 +49,6 @@ public class CategoryController {
     public ResponseEntity<ApiResponse<String>> removeCategory(@PathVariable long id, HttpServletRequest request){
         User user = (User) request.getAttribute("user");
         categoryService.removeCategory(user.getUserId(), id);
-        return ResponseEntity.status(200).body(new ApiResponse<>(true, "", "Category updated !"));
+        return ResponseEntity.status(200).body(new ApiResponse<>(true, "", "Category removed !"));
     }
 }
