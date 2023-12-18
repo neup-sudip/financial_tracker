@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface IncomeRepository extends JpaRepository<Income, Long> {
@@ -15,5 +16,19 @@ public interface IncomeRepository extends JpaRepository<Income, Long> {
 
     @Query(value = "SELECT * FROM income WHERE user_id = :userId AND category_id = :categoryId", nativeQuery = true)
     List<Income> findIncomesByCategory(long userId, long categoryId);
-}
 
+    @Query(value = "SELECT EXTRACT(MONTH FROM created_on) AS month, EXTRACT(YEAR FROM created_on) AS year, SUM(amount) AS totalIncome " +
+            "FROM income " +
+            "WHERE user_id = :userId " +
+            "GROUP BY EXTRACT(YEAR FROM created_on), EXTRACT(MONTH FROM created_on)", nativeQuery = true)
+    List<Map<String, String>> findIncomePerMonth(long userId);
+
+    @Query(nativeQuery = true,
+            value = "SELECT EXTRACT(YEAR FROM created_on) as year, EXTRACT(MONTH FROM created_on) as month, "
+                    + "category_id as categoryId, SUM(amount) as totalIncome "
+                    + "FROM income "
+                    + "WHERE user_id = :userId "
+                    + "GROUP BY year, month, categoryId")
+    List<Map<String, String>> findIncomePerMonthPerCat(long userId);
+
+}

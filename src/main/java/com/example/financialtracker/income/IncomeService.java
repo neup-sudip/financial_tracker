@@ -8,12 +8,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class IncomeService {
     private final IncomeRepository incomeRepository;
+
+    public List<Map<String, String>>getPerMonthReport(long userId){
+        return incomeRepository.findIncomePerMonthPerCat(userId);
+    }
 
     List<IncomeResDto> getAllUserIncomes(long userId){
         List<Income> incomes = incomeRepository.findIncomesByUser(userId);
