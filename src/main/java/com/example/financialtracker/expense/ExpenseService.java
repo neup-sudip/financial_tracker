@@ -2,18 +2,25 @@ package com.example.financialtracker.expense;
 
 import com.example.financialtracker.expensecategory.ExpenseCategory;
 import com.example.financialtracker.exception.CustomException;
+import com.example.financialtracker.report.PerYearMonthCat;
 import com.example.financialtracker.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class ExpenseService {
     private final ExpenseRepository expenseRepository;
+
+    public List<PerYearMonthCat> getPerMonthReport(long userId) {
+        List<Map<String, Object>> reports = expenseRepository.findIncomePerMonthPerCat(userId);
+        return new ArrayList<>(reports.stream().map(PerYearMonthCat::new).toList());
+    }
     
     List<ExpenseResDto> getAllUserExpenses(long userId){
         List<Expense> expenses = expenseRepository.findExpensesByUser(userId);

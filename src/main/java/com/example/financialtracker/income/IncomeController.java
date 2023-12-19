@@ -18,13 +18,6 @@ public class IncomeController {
 
     private final IncomeService incomeService;
 
-    @GetMapping("/per-month")
-    public ResponseEntity<ApiResponse<List<Map<String, String>>>> getIncomeReport(HttpServletRequest request){
-        User user = (User) request.getAttribute("user");
-        List<Map<String, String>> report = incomeService.getPerMonthReport(user.getUserId());
-        return ResponseEntity.status(200).body(new ApiResponse<>(true, report, "Incomes fetched !"));
-    }
-
     @GetMapping()
     public ResponseEntity<ApiResponse<List<IncomeResDto>>> getAllIncome(HttpServletRequest request){
         User user = (User) request.getAttribute("user");

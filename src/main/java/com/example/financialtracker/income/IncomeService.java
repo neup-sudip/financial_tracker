@@ -2,25 +2,25 @@ package com.example.financialtracker.income;
 
 import com.example.financialtracker.exception.CustomException;
 import com.example.financialtracker.incomecategory.IncomeCategory;
+import com.example.financialtracker.report.PerYearMonthCat;
 import com.example.financialtracker.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.math.BigDecimal;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
 public class IncomeService {
     private final IncomeRepository incomeRepository;
 
-    public List<Map<String, String>>getPerMonthReport(long userId){
-        return incomeRepository.findIncomePerMonthPerCat(userId);
+    public List<PerYearMonthCat> getPerMonthReport(long userId) {
+        List<Map<String, Object>> reports = incomeRepository.findIncomePerMonthPerCat(userId);
+        return new ArrayList<>(reports.stream().map(PerYearMonthCat::new).toList());
     }
 
-    List<IncomeResDto> getAllUserIncomes(long userId){
+    List<IncomeResDto> getAllUserIncomes(long userId) {
         List<Income> incomes = incomeRepository.findIncomesByUser(userId);
         return new ArrayList<>(incomes.stream().map(IncomeResDto::new).toList());
     }
@@ -67,9 +67,9 @@ public class IncomeService {
         return new IncomeResDto(savedIncome);
     }
 
-    public void removeIncome(long userId, long incomeId){
+    public void removeIncome(long userId, long incomeId) {
         Optional<Income> prevIncome = incomeRepository.findSingleIncome(userId, incomeId);
-        if(prevIncome.isEmpty()){
+        if (prevIncome.isEmpty()) {
             throw new CustomException("Can not find income at the moment !", 404);
         }
 

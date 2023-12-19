@@ -15,12 +15,12 @@ public class ExpenseCategoryService {
     private final ExpenseCategoryRepository expenseCategoryRepository;
 
     public List<ExpenseCategoryResDto> getAllCategoryByUser(long userId) {
-        List<ExpenseCategory> categories = expenseCategoryRepository.findCategoryByUserId(userId);
+        List<ExpenseCategory> categories = expenseCategoryRepository.findAllCategories(userId);
         return new ArrayList<>(categories.stream().map(ExpenseCategoryResDto::new).toList());
     }
 
     public ExpenseCategoryResDto getSingleCategory(long userId, long categoryId) {
-        Optional<ExpenseCategory> category = expenseCategoryRepository.findCategoryByIdAndUserId(categoryId, userId);
+        Optional<ExpenseCategory> category = expenseCategoryRepository.findCategoryById(categoryId, userId);
 
         if (category.isEmpty()) {
             throw new CustomException("Category not found !", 404);
@@ -29,7 +29,7 @@ public class ExpenseCategoryService {
     }
 
     public ExpenseCategoryResDto createCategory(ExpenseCategoryReqDto expenseCategoryReqDto, long userId) {
-        Optional<ExpenseCategory> titleExist = expenseCategoryRepository.findCategoryByTitleAndUserId(expenseCategoryReqDto.getTitle(), userId);
+        Optional<ExpenseCategory> titleExist = expenseCategoryRepository.findCategoryByTitle(expenseCategoryReqDto.getTitle(), userId);
 
         if (titleExist.isPresent()) {
             throw new CustomException("You already have category with this title", 400);
@@ -45,12 +45,12 @@ public class ExpenseCategoryService {
     }
 
     public ExpenseCategoryResDto updateCategory(ExpenseCategoryReqDto expenseCategoryReqDto, long userId, long categoryId) {
-        Optional<ExpenseCategory> titleExist = expenseCategoryRepository.findByTitleAndUserIdNotId(expenseCategoryReqDto.getTitle(), userId, categoryId);
+        Optional<ExpenseCategory> titleExist = expenseCategoryRepository.findByTitleAndNotId(expenseCategoryReqDto.getTitle(), userId, categoryId);
         if (titleExist.isPresent()) {
             throw new CustomException("You already have category with this title", 400);
         }
 
-        Optional<ExpenseCategory> prevCat = expenseCategoryRepository.findCategoryByIdAndUserId(categoryId, userId);
+        Optional<ExpenseCategory> prevCat = expenseCategoryRepository.findCategoryById(categoryId, userId);
         if (prevCat.isEmpty()) {
             throw new CustomException("Can not find category at the moment !", 404);
         }
@@ -66,7 +66,7 @@ public class ExpenseCategoryService {
     }
 
     public void removeCategory(long userId, long categoryId){
-        Optional<ExpenseCategory> prevCat = expenseCategoryRepository.findCategoryByIdAndUserId(categoryId, userId);
+        Optional<ExpenseCategory> prevCat = expenseCategoryRepository.findCategoryById(categoryId, userId);
         if(prevCat.isEmpty()){
             throw new CustomException("Can not find category at the moment !", 404);
         }
