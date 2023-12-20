@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class ExpenseCategoryResDto {
-    private long categoryId;
+    private long id;
 
     private String title;
 
@@ -28,7 +28,7 @@ public class ExpenseCategoryResDto {
     private boolean status;
 
     public ExpenseCategoryResDto(ExpenseCategory expenseCategory) {
-        this.categoryId = expenseCategory.getCategoryId();
+        this.id = expenseCategory.getCategoryId();
         this.title = expenseCategory.getTitle();
         this.description = expenseCategory.getDescription();
         this.amountLimit = expenseCategory.getAmountLimit();

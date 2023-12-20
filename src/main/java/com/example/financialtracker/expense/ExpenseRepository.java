@@ -26,7 +26,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
     @Query(nativeQuery = true,
             value = "SELECT EXTRACT(YEAR FROM created_on) as year, EXTRACT(MONTH FROM created_on) as month, "
-                    + "SUM(amount) as total "
+                    + "SUM(amount) as total, COUNT(*) as count "
                     + "FROM expense "
                     + "WHERE user_id = :userId "
                     + "AND category_id = :categoryId "

@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class IncomeCategoryResDto {
-    private long categoryId;
+    private long id;
 
     private String title;
 
@@ -23,7 +23,7 @@ public class IncomeCategoryResDto {
     private boolean status;
 
     public IncomeCategoryResDto(IncomeCategory incomeCategory) {
-        this.categoryId = incomeCategory.getCategoryId();
+        this.id = incomeCategory.getCategoryId();
         this.title = incomeCategory.getTitle();
         this.description = incomeCategory.getDescription();
         this.createdOn = incomeCategory.getCreatedOn();

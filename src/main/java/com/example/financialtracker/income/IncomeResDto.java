@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class IncomeResDto {
-    private long incomeId;
+    private long id;
 
     private long categoryId;
 
@@ -28,7 +28,7 @@ public class IncomeResDto {
     private LocalDate createdOn;
 
     public IncomeResDto(Income income) {
-        this.incomeId = income.getIncomeId();
+        this.id = income.getIncomeId();
         this.categoryId = income.getIncomeCategory().getCategoryId();
         this.categoryTitle = income.getIncomeCategory().getTitle();
         this.incomeTitle = income.getTitle();

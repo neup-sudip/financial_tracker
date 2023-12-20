@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class ExpenseResDto {
-    private long expenseId;
+    private long id;
 
     private long categoryId;
 
@@ -28,7 +28,7 @@ public class ExpenseResDto {
     private LocalDate createdOn;
 
     public ExpenseResDto(Expense expense) {
-        this.expenseId = expense.getExpenseId();
+        this.id = expense.getExpenseId();
         this.categoryId = expense.getExpenseCategory().getCategoryId();
         this.categoryTitle = expense.getExpenseCategory().getTitle();
         this.expenseTitle = expense.getTitle();
