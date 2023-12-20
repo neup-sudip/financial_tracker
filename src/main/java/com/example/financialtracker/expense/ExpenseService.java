@@ -2,6 +2,7 @@ package com.example.financialtracker.expense;
 
 import com.example.financialtracker.expensecategory.ExpenseCategory;
 import com.example.financialtracker.exception.CustomException;
+import com.example.financialtracker.report.PerMonthCatExpense;
 import com.example.financialtracker.report.PerYearMonthCat;
 import com.example.financialtracker.user.User;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +18,16 @@ import java.util.Optional;
 public class ExpenseService {
     private final ExpenseRepository expenseRepository;
 
-    public List<PerYearMonthCat> getPerMonthReport(long userId) {
-        List<Map<String, Object>> reports = expenseRepository.findIncomePerMonthPerCat(userId);
+    public List<PerYearMonthCat> getPerMonthReport(User user) {
+        List<Map<String, Object>> reports = expenseRepository.findExpensePerMonthPerCat(user);
         return new ArrayList<>(reports.stream().map(PerYearMonthCat::new).toList());
     }
+
+    public List<PerMonthCatExpense> getPerMonthCatExpense(long userId, long categoryId) {
+        List<Map<String, Object>> reports = expenseRepository.findPerMonthCatExpense(userId, categoryId);
+        return new ArrayList<>(reports.stream().map(PerMonthCatExpense::new).toList());
+    }
+
     
     List<ExpenseResDto> getAllUserExpenses(long userId){
         List<Expense> expenses = expenseRepository.findExpensesByUser(userId);

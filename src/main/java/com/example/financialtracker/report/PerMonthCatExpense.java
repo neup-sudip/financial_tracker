@@ -12,16 +12,14 @@ import java.util.Map;
 @AllArgsConstructor
 @Getter
 @Setter
-public class PerYearMonthCat {
-    private int year;
-    private int month;
-    private String category;
+public class PerMonthCatExpense {
+    private BigDecimal year;
+    private BigDecimal month;
     private BigDecimal total;
 
-    public PerYearMonthCat(Map<String, Object> report ) {
-        this.year = (int) report.get("year");
-        this.month = (int) report.get("month");
-        this.category = String.valueOf(report.get("category"));
+    public PerMonthCatExpense(Map<String, Object> report ) {
+        this.year = (BigDecimal) report.get("year");
+        this.month = (BigDecimal) report.get("month");
         this.total = (BigDecimal) report.get("total");
     }
 }

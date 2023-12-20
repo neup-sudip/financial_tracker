@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,14 +25,21 @@ public class ReportController {
     @GetMapping("/income/per-ymc")
     public ResponseEntity<ApiResponse<List<PerYearMonthCat>>> perYearMonthCatIncome(HttpServletRequest request) {
         User user = (User) request.getAttribute("user");
-        List<PerYearMonthCat> report = incomeService.getPerMonthReport(user.getUserId());
-        return ResponseEntity.status(200).body(new ApiResponse<>(true, report, "Report fetched !"));
+        List<PerYearMonthCat> report = incomeService.getPerMonthReport(user);
+        return ResponseEntity.status(200).body(new ApiResponse<>(true, report, "Income Report fetched !"));
     }
 
     @GetMapping("/expense/per-ymc")
     public ResponseEntity<ApiResponse<List<PerYearMonthCat>>> perYearMonthCatExpense(HttpServletRequest request) {
         User user = (User) request.getAttribute("user");
-        List<PerYearMonthCat> report = expenseService.getPerMonthReport(user.getUserId());
-        return ResponseEntity.status(200).body(new ApiResponse<>(true, report, "Report fetched !"));
+        List<PerYearMonthCat> report = expenseService.getPerMonthReport(user);
+        return ResponseEntity.status(200).body(new ApiResponse<>(true, report, "Expense Report fetched !"));
+    }
+
+    @GetMapping("/expense/per-ymc/{id}")
+    public ResponseEntity<ApiResponse<List<PerMonthCatExpense>>> perMonthCatExpense( @PathVariable long id, HttpServletRequest request) {
+        User user = (User) request.getAttribute("user");
+        List<PerMonthCatExpense> report = expenseService.getPerMonthCatExpense(user.getUserId(), id);
+        return ResponseEntity.status(200).body(new ApiResponse<>(true, report, "Expense per category report fetched !"));
     }
 }

@@ -1,5 +1,6 @@
 package com.example.financialtracker.income;
 
+import com.example.financialtracker.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,12 +18,10 @@ public interface IncomeRepository extends JpaRepository<Income, Long> {
     @Query(value = "SELECT * FROM income WHERE user_id = :userId AND category_id = :categoryId", nativeQuery = true)
     List<Income> findIncomesByCategory(long userId, long categoryId);
 
-    @Query(nativeQuery = true,
-            value = "SELECT EXTRACT(YEAR FROM created_on) as year, EXTRACT(MONTH FROM created_on) as month, "
-                    + "category_id as categoryId, SUM(amount) as total "
-                    + "FROM income "
-                    + "WHERE user_id = :userId "
-                    + "GROUP BY year, month, categoryId")
-    List<Map<String, Object>> findIncomePerMonthPerCat(long userId);
+    @Query(value = "SELECT YEAR(e.createdOn) as year, MONTH(e.createdOn) as month, e.incomeCategory.title as category, SUM(e.amount) as total " +
+            "FROM Income e " +
+            "WHERE e.user = :user " +
+            "GROUP BY YEAR(e.createdOn), MONTH(e.createdOn), e.incomeCategory.title ")
+    List<Map<String, Object>> findIncomePerMonthPerCat(User user);
 
 }

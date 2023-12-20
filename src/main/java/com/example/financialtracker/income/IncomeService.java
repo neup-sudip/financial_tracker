@@ -15,8 +15,8 @@ import java.util.*;
 public class IncomeService {
     private final IncomeRepository incomeRepository;
 
-    public List<PerYearMonthCat> getPerMonthReport(long userId) {
-        List<Map<String, Object>> reports = incomeRepository.findIncomePerMonthPerCat(userId);
+    public List<PerYearMonthCat> getPerMonthReport(User user) {
+        List<Map<String, Object>> reports = incomeRepository.findIncomePerMonthPerCat(user);
         return new ArrayList<>(reports.stream().map(PerYearMonthCat::new).toList());
     }
 
