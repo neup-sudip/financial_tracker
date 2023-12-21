@@ -12,6 +12,9 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     @Query(value = "SELECT * FROM expense WHERE user_id = :userId", nativeQuery = true)
     List<Expense> findExpensesByUser(long userId);
 
+    @Query(value = "SELECT * FROM expense WHERE user_id = :userId AND category_id = :categoryId", nativeQuery = true)
+    List<Expense> findByUserAndCategory(long userId, long categoryId);
+
     @Query(value = "SELECT * FROM expense WHERE user_id = :userId AND expense_id = :expenseId LIMIT 1", nativeQuery = true)
     Optional<Expense> findSingleExpense(long userId, long expenseId);
 

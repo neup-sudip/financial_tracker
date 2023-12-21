@@ -18,9 +18,10 @@ public class ExpenseController {
     private final ExpenseService expenseService;
 
     @GetMapping()
-    public ResponseEntity<ApiResponse<List<ExpenseResDto>>> getAllExpense(HttpServletRequest request){
+    public ResponseEntity<ApiResponse<List<ExpenseResDto>>> getAllExpense(HttpServletRequest request, @RequestParam(name = "category", defaultValue = "-1") long catId){
         User user = (User) request.getAttribute("user");
-        List<ExpenseResDto> expenseResDtos = expenseService.getAllUserExpenses(user.getUserId());
+
+        List<ExpenseResDto> expenseResDtos = expenseService.getAllUserExpenses(user.getUserId(), catId);
         return ResponseEntity.status(200).body(new ApiResponse<>(true, expenseResDtos, "Expenses fetched !"));
     }
 

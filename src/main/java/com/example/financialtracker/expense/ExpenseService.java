@@ -28,9 +28,14 @@ public class ExpenseService {
         return new ArrayList<>(reports.stream().map(PerMonthCatExpense::new).toList());
     }
 
-    
-    List<ExpenseResDto> getAllUserExpenses(long userId){
-        List<Expense> expenses = expenseRepository.findExpensesByUser(userId);
+
+    List<ExpenseResDto> getAllUserExpenses(long userId, long categoryId) {
+        List<Expense> expenses;
+        if (categoryId > 0) {
+            expenses = expenseRepository.findByUserAndCategory(userId, categoryId);
+        } else {
+            expenses = expenseRepository.findExpensesByUser(userId);
+        }
         return new ArrayList<>(expenses.stream().map(ExpenseResDto::new).toList());
     }
 
@@ -76,9 +81,9 @@ public class ExpenseService {
         return new ExpenseResDto(savedExpense);
     }
 
-    public void removeExpense(long userId, long expenseId){
+    public void removeExpense(long userId, long expenseId) {
         Optional<Expense> prevExpense = expenseRepository.findSingleExpense(userId, expenseId);
-        if(prevExpense.isEmpty()){
+        if (prevExpense.isEmpty()) {
             throw new CustomException("Can not find expense at the moment !", 404);
         }
 
