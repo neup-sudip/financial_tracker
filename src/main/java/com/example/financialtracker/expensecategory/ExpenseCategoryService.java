@@ -2,9 +2,12 @@ package com.example.financialtracker.expensecategory;
 
 import com.example.financialtracker.exception.CustomException;
 import com.example.financialtracker.user.User;
+import com.example.financialtracker.years.YearsResDto;
+import com.example.financialtracker.years.YearsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +16,8 @@ import java.util.Optional;
 @Service
 public class ExpenseCategoryService {
     private final ExpenseCategoryRepository expenseCategoryRepository;
+
+    private final YearsService yearsService;
 
     public List<ExpenseCategoryResDto> getAllCategoryByUser(long userId) {
         List<ExpenseCategory> categories = expenseCategoryRepository.findAllCategories(userId);
@@ -25,7 +30,8 @@ public class ExpenseCategoryService {
         if (category.isEmpty()) {
             throw new CustomException("Category not found !", 404);
         }
-        return new ExpenseCategoryResDto(category.get());
+        List<YearsResDto> yearsResDtos = yearsService.getAllYearsByCategory(categoryId);
+        return new ExpenseCategoryResDto(category.get(), yearsResDtos);
     }
 
     public ExpenseCategoryResDto createCategory(ExpenseCategoryReqDto expenseCategoryReqDto, long userId) {
@@ -58,8 +64,6 @@ public class ExpenseCategoryService {
 
         preExpenseCategory.setTitle(expenseCategoryReqDto.getTitle());
         preExpenseCategory.setDescription(expenseCategoryReqDto.getDescription());
-        preExpenseCategory.setAmountLimit(expenseCategoryReqDto.getAmountLimit());
-        preExpenseCategory.setItemLimit(expenseCategoryReqDto.getItemLimit());
 
         ExpenseCategory savedExpenseCategory = expenseCategoryRepository.save(preExpenseCategory);
         return new ExpenseCategoryResDto(savedExpenseCategory);

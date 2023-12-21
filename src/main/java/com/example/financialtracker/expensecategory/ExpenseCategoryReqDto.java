@@ -19,10 +19,4 @@ public class ExpenseCategoryReqDto {
     private String title;
 
     private String description;
-
-    @DecimalMin(value = "100", message = "Amount Limit must be at least 100.")
-    private BigDecimal amountLimit;
-
-    @Positive(message = "Item Limit must be greater than 0 !")
-    private int itemLimit;
 }

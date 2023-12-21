@@ -27,6 +27,7 @@ public class ExpenseCategoryController {
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<ExpenseCategoryResDto>> getSingleCategory(@PathVariable long id, HttpServletRequest request){
         User user = (User) request.getAttribute("user");
+
         ExpenseCategoryResDto expenseCategoryResDto = expenseCategoryService.getSingleCategory(user.getUserId(), id);
         return ResponseEntity.status(200).body(new ApiResponse<>(true, expenseCategoryResDto, "Category fetched !"));
     }

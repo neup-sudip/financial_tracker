@@ -1,5 +1,7 @@
 package com.example.financialtracker.expensecategory;
 
+import com.example.financialtracker.years.Years;
+import com.example.financialtracker.years.YearsResDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +9,8 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,9 +23,7 @@ public class ExpenseCategoryResDto {
 
     private String description;
 
-    private BigDecimal amountLimit;
-
-    private int itemLimit;
+    private List<YearsResDto> years = new ArrayList<>();
 
     private LocalDate createdOn;
 
@@ -31,9 +33,15 @@ public class ExpenseCategoryResDto {
         this.id = expenseCategory.getCategoryId();
         this.title = expenseCategory.getTitle();
         this.description = expenseCategory.getDescription();
-        this.amountLimit = expenseCategory.getAmountLimit();
-        this.itemLimit= expenseCategory.getItemLimit();
         this.createdOn = expenseCategory.getCreatedOn();
+        this.status = expenseCategory.isStatus();
+    }
+
+    public ExpenseCategoryResDto(ExpenseCategory expenseCategory, List<YearsResDto> yearsResDtos) {
+        this.id = expenseCategory.getCategoryId();
+        this.title = expenseCategory.getTitle();
+        this.description = expenseCategory.getDescription();
+        this.years = yearsResDtos;
         this.status = expenseCategory.isStatus();
     }
 }
