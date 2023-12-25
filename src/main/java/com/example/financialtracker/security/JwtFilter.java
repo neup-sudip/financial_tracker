@@ -20,6 +20,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -32,8 +33,9 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            String token = jwtService.extractToken(request);
-            if(!token.isEmpty()) {
+            String token = jwtService.extractToken(request, "auth");
+            if (!token.isEmpty()) {
+                String hasConfirm = jwtService.extractToken(request, "confirm");
                 jwtService.validateToken(token);
                 Claims userClaim = jwtService.decodeToken(token);
                 Map<String, Object> userMap = userClaim.get("user", Map.class);
@@ -43,6 +45,8 @@ public class JwtFilter extends OncePerRequestFilter {
                 user.setUsername((String) userMap.get("username"));
 
                 request.setAttribute("user", user);
+
+                request.setAttribute("confirm", !hasConfirm.isEmpty());
 
                 UserDetails userDetails = customUserDetailService.loadUserByUsername(user.getUsername());
 
@@ -55,7 +59,6 @@ public class JwtFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request, response);
         } catch (CustomException exception) {
-            System.out.println(exception.getMessage());
             ObjectMapper objectMapper = new ObjectMapper();
             ApiResponse<String> apiResponse = new ApiResponse<>(false, null, exception.getMessage());
             response.setContentType("application/json");

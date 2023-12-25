@@ -35,8 +35,7 @@ public class IncomeCategoryService {
             throw new CustomException("You already have category with this title", 400);
         }
 
-        User user = new User();
-        user.setUserId(userId);
+        User user = new User(userId);
         IncomeCategory newIncomeCategory = new IncomeCategory(incomeCategoryReqDto, user);
 
         IncomeCategory savedIncomeCategory = incomeCategoryRepository.save(newIncomeCategory);

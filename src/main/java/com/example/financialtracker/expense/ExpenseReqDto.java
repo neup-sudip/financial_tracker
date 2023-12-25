@@ -1,14 +1,13 @@
 package com.example.financialtracker.expense;
 
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,4 +25,8 @@ public class ExpenseReqDto {
 
     @DecimalMin(value = "1", message = "Amount Limit must be at least 1.")
     private BigDecimal amount;
+
+    @NotNull(message = "Date is required")
+    @Past(message = "Date must be in the past")
+    private LocalDate date;
 }

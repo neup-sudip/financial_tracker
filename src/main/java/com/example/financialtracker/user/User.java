@@ -27,11 +27,14 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
-
     public User(UserRegisterDto userRegisterDto) {
         this.username = userRegisterDto.getUsername();
         this.password = userRegisterDto.getPassword();
         this.fullName = userRegisterDto.getFullName();
         this.email = userRegisterDto.getEmail();
+    }
+
+    public User(long userId){
+        this.userId = userId;
     }
 }

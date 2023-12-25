@@ -18,13 +18,8 @@ public class YearsService {
         return new ArrayList<>(yearsList.stream().map(YearsResDto::new).toList());
     }
 
-    public YearsResDto getSingleYear(long yearId) {
-        Optional<Years> optYear = yearsRepository.findById(yearId);
-        if (optYear.isEmpty()) {
-            throw new CustomException("Year not found !", 404);
-        }
-        Years year = optYear.get();
-        return new YearsResDto(year);
+    public Optional<Years> getYearByCategoryAndYear(long categoryId, int year) {
+       return yearsRepository.getYearByCategoryAndYear(categoryId, year);
     }
 
     public YearsResDto addNewYear(YearsReqDto yearsReqDto, long categoryId){

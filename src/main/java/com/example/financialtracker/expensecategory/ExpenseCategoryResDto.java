@@ -1,13 +1,11 @@
 package com.example.financialtracker.expensecategory;
 
-import com.example.financialtracker.years.Years;
 import com.example.financialtracker.years.YearsResDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

@@ -40,8 +40,7 @@ public class IncomeService {
     }
 
     public IncomeResDto createIncome(IncomeReqDto incomeReqDto, long userId) {
-        User user = new User();
-        user.setUserId(userId);
+        User user = new User(userId);
         Income newIncome = new Income(incomeReqDto, user);
 
         Income savedIncome = incomeRepository.save(newIncome);
@@ -62,6 +61,7 @@ public class IncomeService {
         prevIncome.setTitle(incomeReqDto.getTitle());
         prevIncome.setDescription(incomeReqDto.getDescription());
         prevIncome.setAmount(incomeReqDto.getAmount());
+        prevIncome.setCreatedOn(incomeReqDto.getDate());
 
         Income savedIncome = incomeRepository.save(prevIncome);
         return new IncomeResDto(savedIncome);

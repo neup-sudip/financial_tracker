@@ -39,7 +39,7 @@ public class Expense {
     private BigDecimal amount;
 
     @Column(name = "created_on")
-    private LocalDate createdOn = LocalDate.now();
+    private LocalDate createdOn;
 
     public Expense(ExpenseReqDto expenseReqDto, User user) {
         this.user = user;
@@ -49,5 +49,6 @@ public class Expense {
         this.title  = expenseReqDto.getTitle();
         this.description = expenseReqDto.getDescription();
         this.amount = expenseReqDto.getAmount();
+        this.createdOn = expenseReqDto.getDate();
     }
 }

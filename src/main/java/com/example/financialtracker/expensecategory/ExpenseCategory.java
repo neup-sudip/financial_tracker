@@ -43,4 +43,8 @@ public class ExpenseCategory {
         this.title = expenseCategoryReqDto.getTitle();
         this.description = expenseCategoryReqDto.getDescription();
     }
+
+    public ExpenseCategory(long categoryId){
+        this.categoryId = categoryId;
+    }
 }

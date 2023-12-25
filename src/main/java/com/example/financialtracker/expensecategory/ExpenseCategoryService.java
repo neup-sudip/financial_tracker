@@ -21,6 +21,7 @@ public class ExpenseCategoryService {
 
     public List<ExpenseCategoryResDto> getAllCategoryByUser(long userId) {
         List<ExpenseCategory> categories = expenseCategoryRepository.findAllCategories(userId);
+
         return new ArrayList<>(categories.stream().map(ExpenseCategoryResDto::new).toList());
     }
 
@@ -41,8 +42,7 @@ public class ExpenseCategoryService {
             throw new CustomException("You already have category with this title", 400);
         }
 
-        User user = new User();
-        user.setUserId(userId);
+        User user = new User(userId);
         ExpenseCategory newExpenseCategory = new ExpenseCategory(expenseCategoryReqDto, user);
 
         ExpenseCategory savedExpenseCategory = expenseCategoryRepository.save(newExpenseCategory);

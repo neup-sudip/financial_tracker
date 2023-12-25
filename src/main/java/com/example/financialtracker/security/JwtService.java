@@ -25,10 +25,10 @@ public class JwtService {
     @Value("${jwt.expire.date}")
     private String JWT_EXPIRE;
 
-    public String extractToken(HttpServletRequest request) {
+    public String extractToken(HttpServletRequest request, String key) {
         try {
             for (Cookie cookie : request.getCookies()) {
-                if (cookie.getName().equals("auth")) {
+                if (cookie.getName().equals(key)) {
                     return cookie.getValue();
                 }
             }

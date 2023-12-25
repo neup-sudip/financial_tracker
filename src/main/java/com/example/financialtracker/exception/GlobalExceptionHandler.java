@@ -23,9 +23,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception,
                                                                   HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         Map<String, String> errors = new HashMap<>();
-
-        System.out.println("Global Error !");
-
         exception.getBindingResult().getAllErrors().forEach(error -> {
             String errorTitle = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
@@ -38,18 +35,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<ApiResponse<String>> handleCustomException(CustomException exception) {
-        System.out.println("Custom Error !");
         ApiResponse<String> apiResponse = new ApiResponse<>(false, null, exception.getMessage());
-        return ResponseEntity.status(exception.getStatus() | 400).body(apiResponse);
+        return ResponseEntity.status(exception.getStatus()).body(apiResponse);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ApiResponse<String>> handleAuthenticationException(AccessDeniedException exception) {
-        System.out.println("Access Denied Exception !");
         ApiResponse<String> apiResponse = new ApiResponse<>(false, null, exception.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(apiResponse);
     }
-
-
-
 }
