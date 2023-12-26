@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -69,14 +70,19 @@ public class ExpenseCategoryService {
         return new ExpenseCategoryResDto(savedExpenseCategory);
     }
 
-    public void removeCategory(long userId, long categoryId){
+    public void updateCatStatus(long userId, long categoryId, String action){
         Optional<ExpenseCategory> prevCat = expenseCategoryRepository.findCategoryById(categoryId, userId);
         if(prevCat.isEmpty()){
             throw new CustomException("Can not find category at the moment !", 404);
         }
-
         ExpenseCategory prevExpenseCategory = prevCat.get();
-        prevExpenseCategory.setStatus(false);
+        if(action.equals("A")){
+            prevExpenseCategory.setStatus(true);
+        }
+
+        if(action.equals("R")){
+            prevExpenseCategory.setStatus(false);
+        }
 
         expenseCategoryRepository.save(prevExpenseCategory);
     }

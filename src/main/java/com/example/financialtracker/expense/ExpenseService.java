@@ -42,18 +42,13 @@ public class ExpenseService {
         return new ArrayList<>(reports.stream().map(PerMonthCatExpense::new).toList());
     }
 
-    List<ExpenseResDto> getAllUserExpenses(long userId, long categoryId, int currentPage, String query) {
-        int offset = 0;
-        if (currentPage > 1) {
-            offset = (currentPage - 1) * totalBooksPerPage;
-        }
+    List<ExpenseResDto> getAllUserExpenses(long userId, long categoryId, String query) {
         List<Expense> expenses;
         User user = new User(userId);
         if (categoryId > 0) {
             expenses = expenseRepository.findByUserAndCategory(userId, categoryId);
         } else {
-
-            expenses = expenseRepository.findExpensesByUser(user, query);
+            expenses = expenseRepository.findExpensesByUser(userId);
         }
         return new ArrayList<>(expenses.stream().map(ExpenseResDto::new).toList());
     }

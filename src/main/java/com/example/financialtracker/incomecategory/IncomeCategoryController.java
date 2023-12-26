@@ -45,10 +45,10 @@ public class IncomeCategoryController {
         return ResponseEntity.status(200).body(new ApiResponse<>(true, incomeCategoryResDto, "Category updated !"));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<String>> removeCategory(@PathVariable long id, HttpServletRequest request){
+    @PatchMapping("/{id}")
+    public ResponseEntity<ApiResponse<String>> activateCategory(@RequestBody String action, @PathVariable long id, HttpServletRequest request){
         User user = (User) request.getAttribute("user");
-        incomeCategoryService.removeCategory(user.getUserId(), id);
-        return ResponseEntity.status(200).body(new ApiResponse<>(true, "", "Category removed !"));
+        incomeCategoryService.updateCatStatus(user.getUserId(), id, action.replace("\"", ""));
+        return ResponseEntity.status(200).body(new ApiResponse<>(true, "", "Status updated !"));
     }
 }

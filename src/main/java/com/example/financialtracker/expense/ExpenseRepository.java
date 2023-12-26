@@ -11,8 +11,10 @@ import java.util.Map;
 import java.util.Optional;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
-    @Query(value = "SELECT e FROM Expense e WHERE (e.user = :user) AND (LOWER(e.title) LIKE LOWER(:query) OR LOWER(e.description) LIKE LOWER(:query) OR LOWER(e.expenseCategory.title) LIKE LOWER(:query))")
-    List<Expense> findExpensesByUser(User user,  String query);
+    //    @Query(value = "SELECT e FROM Expense e WHERE (e.user = :user) AND (LOWER(e.title) LIKE LOWER(:query) OR LOWER(e.description) LIKE LOWER(:query) OR LOWER(e.expenseCategory.title) LIKE LOWER(:query))")
+//    List<Expense> findExpensesByUser(User user,  String query);
+    @Query(value = "SELECT * FROM expense WHERE user_id = :userId", nativeQuery = true)
+    List<Expense> findExpensesByUser(long userId);
 
     @Query(value = "SELECT * FROM expense WHERE user_id = :userId AND category_id = :categoryId", nativeQuery = true)
     List<Expense> findByUserAndCategory(long userId, long categoryId);
@@ -37,10 +39,10 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     List<Map<String, Object>> findExpensePerMonthPerCat(User user);
 
     @Query(value = "SELECT YEAR(e.createdOn) as year, MONTH(e.createdOn) as month, "
-                    + "SUM(e.amount) as total, COUNT(e) as count "
-                    + "FROM Expense e "
-                    + "WHERE e.user = :user "
-                    + "AND e.expenseCategory = :category "
-                    + "GROUP BY YEAR(e.createdOn), MONTH(e.createdOn)")
+            + "SUM(e.amount) as total, COUNT(e) as count "
+            + "FROM Expense e "
+            + "WHERE e.user = :user "
+            + "AND e.expenseCategory = :category "
+            + "GROUP BY YEAR(e.createdOn), MONTH(e.createdOn)")
     List<Map<String, Object>> findPerMonthCatExpense(User user, ExpenseCategory category);
 }

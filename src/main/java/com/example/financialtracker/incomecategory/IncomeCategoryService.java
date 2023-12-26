@@ -62,14 +62,20 @@ public class IncomeCategoryService {
         return new IncomeCategoryResDto(savedIncomeCategory);
     }
 
-    public void removeCategory(long userId, long categoryId){
+    public void updateCatStatus(long userId, long categoryId, String action){
         Optional<IncomeCategory> prevCat = incomeCategoryRepository.findSingleCategory(categoryId, userId);
         if(prevCat.isEmpty()){
             throw new CustomException("Can not find category at the moment !", 404);
         }
 
         IncomeCategory prevIncomeCategory = prevCat.get();
-        prevIncomeCategory.setStatus(false);
+        if(action.equals("A")){
+            prevIncomeCategory.setStatus(true);
+        }
+
+        if(action.equals("R")){
+            prevIncomeCategory.setStatus(false);
+        }
 
         incomeCategoryRepository.save(prevIncomeCategory);
     }

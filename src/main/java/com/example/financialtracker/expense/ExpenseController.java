@@ -22,7 +22,7 @@ public class ExpenseController {
     public ResponseEntity<ApiResponse<List<ExpenseResDto>>> getAllExpense(HttpServletRequest request, @RequestParam(name = "category", defaultValue = "0") long catId, @RequestParam(name = "page", defaultValue = "1") int page, @RequestParam(name = "query", defaultValue = "") String query){
         User user = (User) request.getAttribute("user");
 
-        List<ExpenseResDto> expenseResDtos = expenseService.getAllUserExpenses(user.getUserId(), catId, page, query);
+        List<ExpenseResDto> expenseResDtos = expenseService.getAllUserExpenses(user.getUserId(), catId,  query);
         return ResponseEntity.status(200).body(new ApiResponse<>(true, expenseResDtos, "Expenses fetched !"));
     }
 
