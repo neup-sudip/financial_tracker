@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,7 +26,7 @@ public class IncomeReqDto {
     @DecimalMin(value = "1", message = "Amount Limit must be at least 1.")
     private BigDecimal amount;
 
-    @NotNull(message = "Date is required")
-    @Past(message = "Date must be in the past")
-    private LocalDate date;
+//    @NotNull(message = "Date is required")
+//    @Past(message = "Date must be in the past")
+    private LocalDateTime date;
 }

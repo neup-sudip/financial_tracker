@@ -20,7 +20,7 @@ public class IncomeService {
         return new ArrayList<>(reports.stream().map(PerYearMonthCat::new).toList());
     }
 
-    List<IncomeResDto> getAllUserIncomes(long userId) {
+    public List<IncomeResDto> getAllUserIncomes(long userId) {
         List<Income> incomes = incomeRepository.findIncomesByUser(userId);
         return new ArrayList<>(incomes.stream().map(IncomeResDto::new).toList());
     }

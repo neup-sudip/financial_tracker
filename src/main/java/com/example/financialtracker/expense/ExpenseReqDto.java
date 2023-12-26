@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,5 +28,5 @@ public class ExpenseReqDto {
 
     @NotNull(message = "Date is required")
     @Past(message = "Date must be in the past")
-    private LocalDate date;
+    private LocalDateTime date;
 }

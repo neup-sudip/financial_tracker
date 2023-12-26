@@ -3,11 +3,13 @@ package com.example.financialtracker.income;
 import com.example.financialtracker.user.User;
 import com.example.financialtracker.wrapper.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -18,43 +20,45 @@ public class IncomeController {
 
     private final IncomeService incomeService;
 
+    private final HttpServletRequest request;
+
     @GetMapping()
-    public ResponseEntity<ApiResponse<List<IncomeResDto>>> getAllIncome(HttpServletRequest request){
+    public ResponseEntity<ApiResponse<List<IncomeResDto>>> getAllIncome(){
         User user = (User) request.getAttribute("user");
         List<IncomeResDto> incomeResDtos = incomeService.getAllUserIncomes(user.getUserId());
         return ResponseEntity.status(200).body(new ApiResponse<>(true, incomeResDtos, "Incomes fetched !"));
     }
 
     @GetMapping("/category/{id}")
-    public ResponseEntity<ApiResponse<List<IncomeResDto>>> getIncomesByCategory(@PathVariable long id, HttpServletRequest request){
+    public ResponseEntity<ApiResponse<List<IncomeResDto>>> getIncomesByCategory(@PathVariable long id ){
         User user = (User) request.getAttribute("user");
         List<IncomeResDto> incomeResDtos = incomeService.getIncomesByCategory(user.getUserId(), id);
         return ResponseEntity.status(200).body(new ApiResponse<>(true, incomeResDtos, "Category incomes fetched !"));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<IncomeResDto>> getSingleIncome(@PathVariable long id, HttpServletRequest request){
+    public ResponseEntity<ApiResponse<IncomeResDto>> getSingleIncome(@PathVariable long id ){
         User user = (User) request.getAttribute("user");
         IncomeResDto incomeResDto = incomeService.getSingleIncome(user.getUserId(), id);
         return ResponseEntity.status(200).body(new ApiResponse<>(true, incomeResDto, "Income fetched !"));
     }
 
     @PostMapping()
-    public ResponseEntity<ApiResponse<IncomeResDto>> createIncome(@Valid @RequestBody IncomeReqDto incomeReqDto, HttpServletRequest request){
+    public ResponseEntity<ApiResponse<IncomeResDto>> createIncome(@Valid @RequestBody IncomeReqDto incomeReqDto ){
         User user = (User) request.getAttribute("user");
         IncomeResDto incomeResDto = incomeService.createIncome(incomeReqDto, user.getUserId());
         return ResponseEntity.status(200).body(new ApiResponse<>(true, incomeResDto, "Income created !"));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<IncomeResDto>> updateIncome(@Valid @RequestBody IncomeReqDto incomeReqDto, @PathVariable long id, HttpServletRequest request){
+    public ResponseEntity<ApiResponse<IncomeResDto>> updateIncome(@Valid @RequestBody IncomeReqDto incomeReqDto, @PathVariable long id ){
         User user = (User) request.getAttribute("user");
         IncomeResDto incomeResDto = incomeService.updateIncome(incomeReqDto, user.getUserId(), id);
         return ResponseEntity.status(200).body(new ApiResponse<>(true, incomeResDto, "Income updated !"));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<String>> removeIncome(@PathVariable long id, HttpServletRequest request){
+    public ResponseEntity<ApiResponse<String>> removeIncome(@PathVariable long id ){
         User user = (User) request.getAttribute("user");
         incomeService.removeIncome(user.getUserId(), id);
         return ResponseEntity.status(200).body(new ApiResponse<>(true, "", "Income deleted !"));

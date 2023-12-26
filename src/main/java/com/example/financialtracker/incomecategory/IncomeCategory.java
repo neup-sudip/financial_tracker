@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,7 +30,7 @@ public class IncomeCategory {
     private String description;
 
     @Column(name = "created_on")
-    private LocalDate createdOn = LocalDate.now();
+    private LocalDateTime createdOn = LocalDateTime.now();
 
     private boolean status = true;
 

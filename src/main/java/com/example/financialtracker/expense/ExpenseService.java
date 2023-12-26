@@ -42,7 +42,7 @@ public class ExpenseService {
         return new ArrayList<>(reports.stream().map(PerMonthCatExpense::new).toList());
     }
 
-    List<ExpenseResDto> getAllUserExpenses(long userId, long categoryId, String query) {
+    public List<ExpenseResDto> getAllUserExpenses(long userId, long categoryId, String query) {
         List<Expense> expenses;
         User user = new User(userId);
         if (categoryId > 0) {

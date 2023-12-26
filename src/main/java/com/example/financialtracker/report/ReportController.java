@@ -21,23 +21,24 @@ public class ReportController {
 
     private final IncomeService incomeService;
     private final ExpenseService expenseService;
+    private final HttpServletRequest request;
 
     @GetMapping("/income/per-ymc")
-    public ResponseEntity<ApiResponse<List<PerYearMonthCat>>> perYearMonthCatIncome(HttpServletRequest request) {
+    public ResponseEntity<ApiResponse<List<PerYearMonthCat>>> perYearMonthCatIncome() {
         User user = (User) request.getAttribute("user");
         List<PerYearMonthCat> report = incomeService.getPerMonthReport(user);
         return ResponseEntity.status(200).body(new ApiResponse<>(true, report, "Income Report fetched !"));
     }
 
     @GetMapping("/expense/per-ymc")
-    public ResponseEntity<ApiResponse<List<PerYearMonthCat>>> perYearMonthCatExpense(HttpServletRequest request) {
+    public ResponseEntity<ApiResponse<List<PerYearMonthCat>>> perYearMonthCatExpense() {
         User user = (User) request.getAttribute("user");
         List<PerYearMonthCat> report = expenseService.getPerMonthReport(user);
         return ResponseEntity.status(200).body(new ApiResponse<>(true, report, "Expense Report fetched !"));
     }
 
     @GetMapping("/expense/per-ymc/{id}")
-    public ResponseEntity<ApiResponse<List<PerMonthCatExpense>>> perMonthCatExpense( @PathVariable long id, HttpServletRequest request) {
+    public ResponseEntity<ApiResponse<List<PerMonthCatExpense>>> perMonthCatExpense( @PathVariable long id) {
         User user = (User) request.getAttribute("user");
         List<PerMonthCatExpense> report = expenseService.getPerMonthCatExpense(user.getUserId(), id);
         return ResponseEntity.status(200).body(new ApiResponse<>(true, report, "Expense per category report fetched !"));

@@ -23,5 +23,4 @@ public interface IncomeRepository extends JpaRepository<Income, Long> {
             "WHERE e.user = :user " +
             "GROUP BY YEAR(e.createdOn), MONTH(e.createdOn), e.incomeCategory.title ")
     List<Map<String, Object>> findIncomePerMonthPerCat(User user);
-
 }
