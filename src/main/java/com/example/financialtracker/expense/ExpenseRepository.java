@@ -30,7 +30,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
             "WHERE e.user_id = :userId " +
             "  AND e.category_id = :categoryId " +
             "  AND EXTRACT(YEAR FROM e.created_on) = :year", nativeQuery = true)
-    BigDecimal getTotalOfCatInYear(long userId, long categoryId, int year);
+    Optional<BigDecimal> getTotalOfCatInYear(long userId, long categoryId, int year);
 
     @Query(value = "SELECT YEAR(e.createdOn) as year, MONTH(e.createdOn) as month, e.expenseCategory.title as category, SUM(e.amount) as total " +
             "FROM Expense e " +

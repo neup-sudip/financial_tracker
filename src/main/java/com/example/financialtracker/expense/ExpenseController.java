@@ -21,9 +21,9 @@ public class ExpenseController {
     private final HttpServletRequest request;
 
     @GetMapping()
-    public ResponseEntity<ApiResponse<List<ExpenseResDto>>> getAllExpense(@RequestParam(name = "category", defaultValue = "0") long catId, @RequestParam(name = "page", defaultValue = "1") int page, @RequestParam(name = "query", defaultValue = "") String query){
+    public ResponseEntity<ApiResponse<List<ExpenseResDto>>> getAllExpense(@RequestParam(name = "category", defaultValue = "0") long catId ){
         User user = (User) request.getAttribute("user");
-        List<ExpenseResDto> expenseResDtos = expenseService.getAllUserExpenses(user.getUserId(), catId,  query);
+        List<ExpenseResDto> expenseResDtos = expenseService.getAllUserExpenses(user.getUserId(), catId);
         return ResponseEntity.status(200).body(new ApiResponse<>(true, expenseResDtos, "Expenses fetched !"));
     }
 

@@ -42,9 +42,8 @@ public class ExpenseService {
         return new ArrayList<>(reports.stream().map(PerMonthCatExpense::new).toList());
     }
 
-    public List<ExpenseResDto> getAllUserExpenses(long userId, long categoryId, String query) {
+    public List<ExpenseResDto> getAllUserExpenses(long userId, long categoryId) {
         List<Expense> expenses;
-        User user = new User(userId);
         if (categoryId > 0) {
             expenses = expenseRepository.findByUserAndCategory(userId, categoryId);
         } else {
@@ -119,10 +118,10 @@ public class ExpenseService {
     private void handleYearLimit(long userId, ExpenseReqDto expenseReqDto, BigDecimal previousAmount) {
         Calendar now = Calendar.getInstance();
         int year = now.get(Calendar.YEAR);
-        BigDecimal totalUsed = expenseRepository.getTotalOfCatInYear(userId, expenseReqDto.getCategoryId(), year);
+        Optional<BigDecimal> optTotalUsed = expenseRepository.getTotalOfCatInYear(userId, expenseReqDto.getCategoryId(), year);
         Optional<Years> yearData = yearsService.getYearByCategoryAndYear(expenseReqDto.getCategoryId(), year);
-        if (yearData.isPresent()) {
-            BigDecimal totalAmount = totalUsed.add(expenseReqDto.getAmount()).subtract(previousAmount);
+        if (yearData.isPresent() && optTotalUsed.isPresent()) {
+            BigDecimal totalAmount = optTotalUsed.get().add(expenseReqDto.getAmount()).subtract(previousAmount);
             if (yearData.get().getAmountLimit().compareTo(totalAmount) < 0) {
                 final Cookie cookie = new Cookie("confirm", "true");
                 cookie.setSecure(false);
