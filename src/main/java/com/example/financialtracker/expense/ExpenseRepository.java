@@ -13,8 +13,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
-    //    @Query(value = "SELECT e FROM Expense e WHERE (e.user = :user) AND (LOWER(e.title) LIKE LOWER(:query) OR LOWER(e.description) LIKE LOWER(:query) OR LOWER(e.expenseCategory.title) LIKE LOWER(:query))")
-//    List<Expense> findExpensesByUser(User user,  String query);
     @Query(value = "SELECT * FROM expense WHERE user_id = :userId ORDER BY created_on DESC", nativeQuery = true)
     Page<Expense> findExpensesByUser(long userId, Pageable pageable);
 

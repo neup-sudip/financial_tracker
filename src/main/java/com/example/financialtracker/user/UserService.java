@@ -1,9 +1,7 @@
 package com.example.financialtracker.user;
 
 import com.example.financialtracker.exception.CustomException;
-import com.example.financialtracker.wrapper.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

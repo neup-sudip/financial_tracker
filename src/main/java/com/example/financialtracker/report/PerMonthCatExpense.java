@@ -1,6 +1,5 @@
 package com.example.financialtracker.report;
 
-import jakarta.persistence.Tuple;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,5 @@
 package com.example.financialtracker.income;
 
-import com.example.financialtracker.expense.Expense;
 import com.example.financialtracker.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

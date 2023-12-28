@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/expense-year")
 public class YearsController {
 
-
     private final YearsService yearsService;
 
     @PostMapping("/{id}")

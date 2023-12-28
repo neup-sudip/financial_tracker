@@ -3,7 +3,6 @@ package com.example.financialtracker.incomecategory;
 import com.example.financialtracker.user.User;
 import com.example.financialtracker.wrapper.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

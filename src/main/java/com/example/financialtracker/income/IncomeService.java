@@ -1,8 +1,6 @@
 package com.example.financialtracker.income;
 
 import com.example.financialtracker.exception.CustomException;
-import com.example.financialtracker.expense.Expense;
-import com.example.financialtracker.expense.ExpenseResDto;
 import com.example.financialtracker.incomecategory.IncomeCategory;
 import com.example.financialtracker.report.PerYearMonthCat;
 import com.example.financialtracker.user.User;
@@ -11,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 @RequiredArgsConstructor
