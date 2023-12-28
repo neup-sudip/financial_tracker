@@ -18,5 +18,7 @@ public class ExpenseCategoryReqDto {
     @Size(min = 4, message = "title should have at least 4 characters")
     private String title;
 
+    @NotEmpty(message = "Title is required !")
+    @Size(min = 20, message = "title should have at least 20 characters")
     private String description;
 }
