@@ -38,7 +38,7 @@ public class ReportController {
     }
 
     @GetMapping("/expense/per-ymc/{id}")
-    public ResponseEntity<ApiResponse<List<PerMonthCatExpense>>> perMonthCatExpense( @PathVariable long id) {
+    public ResponseEntity<ApiResponse<List<PerMonthCatExpense>>> perMonthCatExpense(@PathVariable long id) {
         User user = (User) request.getAttribute("user");
         List<PerMonthCatExpense> report = expenseService.getPerMonthCatExpense(user.getUserId(), id);
         return ResponseEntity.status(200).body(new ApiResponse<>(true, report, "Expense per category report fetched !"));

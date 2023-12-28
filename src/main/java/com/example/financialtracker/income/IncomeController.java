@@ -1,5 +1,6 @@
 package com.example.financialtracker.income;
 
+import com.example.financialtracker.expense.ExpenseResDto;
 import com.example.financialtracker.user.User;
 import com.example.financialtracker.wrapper.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,10 +23,17 @@ public class IncomeController {
 
     private final HttpServletRequest request;
 
-    @GetMapping()
-    public ResponseEntity<ApiResponse<List<IncomeResDto>>> getAllIncome(){
+    @GetMapping("/download")
+    public ResponseEntity<ApiResponse<List<IncomeResDto>>> downloadExpense(){
         User user = (User) request.getAttribute("user");
-        List<IncomeResDto> incomeResDtos = incomeService.getAllUserIncomes(user.getUserId());
+        List<IncomeResDto> incomeResDtos = incomeService.downloadExpense(user.getUserId());
+        return ResponseEntity.status(200).body(new ApiResponse<>(true, incomeResDtos, "Expenses fetched !"));
+    }
+
+    @GetMapping()
+    public ResponseEntity<ApiResponse<List<IncomeResDto>>> getAllIncome(@RequestParam(name = "page", defaultValue = "1") int page){
+        User user = (User) request.getAttribute("user");
+        List<IncomeResDto> incomeResDtos = incomeService.getAllUserIncomes(user.getUserId(), page);
         return ResponseEntity.status(200).body(new ApiResponse<>(true, incomeResDtos, "Incomes fetched !"));
     }
 

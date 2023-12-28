@@ -1,10 +1,14 @@
 package com.example.financialtracker.income;
 
 import com.example.financialtracker.exception.CustomException;
+import com.example.financialtracker.expense.Expense;
+import com.example.financialtracker.expense.ExpenseResDto;
 import com.example.financialtracker.incomecategory.IncomeCategory;
 import com.example.financialtracker.report.PerYearMonthCat;
 import com.example.financialtracker.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,14 +19,22 @@ import java.util.*;
 public class IncomeService {
     private final IncomeRepository incomeRepository;
 
+    private final int LIMIT = 10;
+
     public List<PerYearMonthCat> getPerMonthReport(User user) {
         List<Map<String, Object>> reports = incomeRepository.findIncomePerMonthPerCat(user);
         return new ArrayList<>(reports.stream().map(PerYearMonthCat::new).toList());
     }
 
-    public List<IncomeResDto> getAllUserIncomes(long userId) {
-        List<Income> incomes = incomeRepository.findIncomesByUser(userId);
+    public List<IncomeResDto> downloadExpense(long userId) {
+        List<Income> incomes = incomeRepository.downloadExpense(userId);
         return new ArrayList<>(incomes.stream().map(IncomeResDto::new).toList());
+    }
+
+    public List<IncomeResDto> getAllUserIncomes(long userId, int page) {
+        PageRequest pageRequest = PageRequest.of(page - 1, LIMIT);
+        Page<Income> incomes = incomeRepository.findIncomesByUser(userId, pageRequest);
+        return new ArrayList<>(incomes.getContent().stream().map(IncomeResDto::new).toList());
     }
 
     public IncomeResDto getSingleIncome(long userId, long incomeId) {

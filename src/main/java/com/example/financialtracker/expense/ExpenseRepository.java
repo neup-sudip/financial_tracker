@@ -2,6 +2,8 @@ package com.example.financialtracker.expense;
 
 import com.example.financialtracker.expensecategory.ExpenseCategory;
 import com.example.financialtracker.user.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -13,16 +15,19 @@ import java.util.Optional;
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     //    @Query(value = "SELECT e FROM Expense e WHERE (e.user = :user) AND (LOWER(e.title) LIKE LOWER(:query) OR LOWER(e.description) LIKE LOWER(:query) OR LOWER(e.expenseCategory.title) LIKE LOWER(:query))")
 //    List<Expense> findExpensesByUser(User user,  String query);
-    @Query(value = "SELECT * FROM expense WHERE user_id = :userId", nativeQuery = true)
-    List<Expense> findExpensesByUser(long userId);
+    @Query(value = "SELECT * FROM expense WHERE user_id = :userId ORDER BY created_on DESC", nativeQuery = true)
+    Page<Expense> findExpensesByUser(long userId, Pageable pageable);
 
-    @Query(value = "SELECT * FROM expense WHERE user_id = :userId AND category_id = :categoryId", nativeQuery = true)
+    @Query(value = "SELECT * FROM expense WHERE user_id = :userId ORDER BY created_on DESC", nativeQuery = true)
+    List<Expense> downloadExpense(long userId);
+
+    @Query(value = "SELECT * FROM expense WHERE user_id = :userId AND category_id = :categoryId ORDER BY created_on DESC", nativeQuery = true)
     List<Expense> findByUserAndCategory(long userId, long categoryId);
 
     @Query(value = "SELECT * FROM expense WHERE user_id = :userId AND expense_id = :expenseId LIMIT 1", nativeQuery = true)
     Optional<Expense> findSingleExpense(long userId, long expenseId);
 
-    @Query(value = "SELECT * FROM expense WHERE user_id = :userId AND category_id = :categoryId", nativeQuery = true)
+    @Query(value = "SELECT * FROM expense WHERE user_id = :userId AND category_id = :categoryId ORDER BY created_on DESC", nativeQuery = true)
     List<Expense> findExpensesByCategory(long userId, long categoryId);
 
     @Query(value = "SELECT COALESCE(SUM(e.amount), 0) " +

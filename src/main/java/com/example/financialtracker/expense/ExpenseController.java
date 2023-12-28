@@ -20,10 +20,17 @@ public class ExpenseController {
 
     private final HttpServletRequest request;
 
-    @GetMapping()
-    public ResponseEntity<ApiResponse<List<ExpenseResDto>>> getAllExpense(@RequestParam(name = "category", defaultValue = "0") long catId ){
+    @GetMapping("/download")
+    public ResponseEntity<ApiResponse<List<ExpenseResDto>>> downloadExpense(){
         User user = (User) request.getAttribute("user");
-        List<ExpenseResDto> expenseResDtos = expenseService.getAllUserExpenses(user.getUserId(), catId);
+        List<ExpenseResDto> expenseResDtos = expenseService.downloadExpense(user.getUserId());
+        return ResponseEntity.status(200).body(new ApiResponse<>(true, expenseResDtos, "Expenses fetched !"));
+    }
+
+    @GetMapping()
+    public ResponseEntity<ApiResponse<List<ExpenseResDto>>> getAllExpense(@RequestParam(name = "page", defaultValue = "1") int page){
+        User user = (User) request.getAttribute("user");
+        List<ExpenseResDto> expenseResDtos = expenseService.getAllUserExpenses(user.getUserId(), page);
         return ResponseEntity.status(200).body(new ApiResponse<>(true, expenseResDtos, "Expenses fetched !"));
     }
 

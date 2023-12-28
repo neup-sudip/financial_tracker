@@ -11,6 +11,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -28,7 +30,7 @@ public class ExpenseService {
     @Value("${confirm.cookie.expire}")
     private int CONFIRM_COOKIE_EXPIRE;
 
-    private final int totalBooksPerPage = 2;
+    private final int LIMIT = 10;
 
     public List<PerYearMonthCat> getPerMonthReport(User user) {
         List<Map<String, Object>> reports = expenseRepository.findExpensePerMonthPerCat(user);
@@ -42,14 +44,15 @@ public class ExpenseService {
         return new ArrayList<>(reports.stream().map(PerMonthCatExpense::new).toList());
     }
 
-    public List<ExpenseResDto> getAllUserExpenses(long userId, long categoryId) {
-        List<Expense> expenses;
-        if (categoryId > 0) {
-            expenses = expenseRepository.findByUserAndCategory(userId, categoryId);
-        } else {
-            expenses = expenseRepository.findExpensesByUser(userId);
-        }
+    public List<ExpenseResDto> downloadExpense(long userId) {
+        List<Expense> expenses = expenseRepository.downloadExpense(userId);
         return new ArrayList<>(expenses.stream().map(ExpenseResDto::new).toList());
+    }
+
+    public List<ExpenseResDto> getAllUserExpenses(long userId, int page) {
+        PageRequest pageRequest = PageRequest.of(page - 1, LIMIT);
+        Page<Expense> expenses = expenseRepository.findExpensesByUser(userId, pageRequest);
+        return new ArrayList<>(expenses.getContent().stream().map(ExpenseResDto::new).toList());
     }
 
     public ExpenseResDto getSingleExpense(long userId, long expenseId) {
