@@ -1,5 +1,6 @@
 package com.example.financialtracker.security;
 
+import com.example.financialtracker.exception.CustomException;
 import com.example.financialtracker.user.User;
 import com.example.financialtracker.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class CustomUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findUserByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+                .orElseThrow(() -> new CustomException("User not found with username: " + username, 403));
 
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),

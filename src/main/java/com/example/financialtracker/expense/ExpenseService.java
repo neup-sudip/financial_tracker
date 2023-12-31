@@ -24,10 +24,12 @@ public class ExpenseService {
     private final ExpenseRepository expenseRepository;
     private final YearsService yearsService;
     private final HttpServletResponse response;
+
     @Value("${confirm.cookie.expire}")
     private int CONFIRM_COOKIE_EXPIRE;
     @Value("${confirm.cookie.value}")
     private String CONFIRM_COOKIE_VALUE;
+
     static final int LIMIT = 10;
     static final String SERVER_ERROR_MESSAGE = "Internal Server Error !";
     static final int SERVER_ERROR_CODE = 500;
@@ -96,6 +98,7 @@ public class ExpenseService {
 
     public ExpenseResDto createExpense(ExpenseReqDto expenseReqDto, long userId, boolean hasConfirm) {
         try {
+            int i = 1;
             User user = new User(userId);
             Expense newExpense = new Expense(expenseReqDto, user);
             if (hasConfirm) {
@@ -104,9 +107,11 @@ public class ExpenseService {
                 return new ExpenseResDto(savedExpense);
             } else {
                 handleYearLimit(userId, expenseReqDto, BigDecimal.valueOf(0));
+
                 Expense savedExpense = expenseRepository.save(newExpense);
                 return new ExpenseResDto(savedExpense);
             }
+
         } catch (CustomException ex) {
             throw new CustomException(ex.getMessage(), ex.getStatus());
         } catch (Exception ex) {

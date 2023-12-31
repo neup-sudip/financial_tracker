@@ -42,9 +42,9 @@ public class AuthController {
         String token = jwtService.generateToken(user);
         final Cookie cookie = new Cookie("auth", token);
         cookie.setSecure(false);
-        cookie.setHttpOnly(true);
+        cookie.setHttpOnly(false);
         cookie.setMaxAge(COOKIE_EXPIRE);
-        cookie.setPath("/api");
+        cookie.setPath("/");
         response.addCookie(cookie);
 
         return ResponseEntity.status(200).body(new ApiResponse<>(true, user, "Login success !"));

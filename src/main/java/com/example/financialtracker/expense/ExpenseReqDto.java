@@ -29,4 +29,6 @@ public class ExpenseReqDto {
     @NotNull(message = "Date is required")
     @Past(message = "Date must be in the past")
     private LocalDateTime date;
+
+    private String cronFor;
 }

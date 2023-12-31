@@ -43,12 +43,15 @@ public class Expense {
 
     public Expense(ExpenseReqDto expenseReqDto, User user) {
         this.user = user;
-        ExpenseCategory newCat = new ExpenseCategory();
-        newCat.setCategoryId(expenseReqDto.getCategoryId());
-        this.expenseCategory = newCat;
+        this.expenseCategory = new ExpenseCategory(expenseReqDto.getCategoryId());
         this.title  = expenseReqDto.getTitle();
         this.description = expenseReqDto.getDescription();
         this.amount = expenseReqDto.getAmount();
         this.createdOn = expenseReqDto.getDate();
     }
+
+    public Expense(long expenseId){
+        this.expenseId = expenseId;
+    }
+
 }

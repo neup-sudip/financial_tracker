@@ -19,7 +19,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         ObjectMapper objectMapper = new ObjectMapper();
         ApiResponse<String> apiResponse = new ApiResponse<>(false, "", "Access Denied !");
         response.setContentType("application/json");
-        response.setStatus(401);
+        response.setStatus(403);
         response.getWriter().write(objectMapper.writeValueAsString(apiResponse));
     }
 }

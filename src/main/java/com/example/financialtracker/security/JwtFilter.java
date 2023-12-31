@@ -1,6 +1,5 @@
 package com.example.financialtracker.security;
 
-
 import com.example.financialtracker.exception.CustomException;
 import com.example.financialtracker.user.User;
 import com.example.financialtracker.wrapper.ApiResponse;
@@ -19,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Service
@@ -32,6 +32,8 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
+
+            System.out.println(LocalDateTime.now());
             String token = jwtService.extractToken(request, "auth");
             if (!token.isEmpty()) {
                 String hasConfirm = jwtService.extractToken(request, "confirm");
@@ -64,6 +66,5 @@ public class JwtFilter extends OncePerRequestFilter {
             response.setStatus(exception.getStatus() | 403);
             response.getWriter().write(objectMapper.writeValueAsString(apiResponse));
         }
-
     }
 }
